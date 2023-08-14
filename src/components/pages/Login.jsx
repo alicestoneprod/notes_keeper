@@ -3,7 +3,7 @@ import { useContext } from "react"
 import { GoogleAuthProvider } from "firebase/auth"
 import { signInWithPopup } from "firebase/auth"
 import { Context } from "../.."
-
+import React from "react"
 const Login = () => {
   const { auth } = useContext(Context)
   const login = async () => {
@@ -13,13 +13,15 @@ const Login = () => {
         const user = result.user
         console.log(user)
       })
-      .catch((error) => {})
+      .catch((error) => {
+        console.log(error)
+      })
   }
   return (
     <Container>
       <Grid
         container
-        style={{ height: window.innerHeight - 80 }}
+        style={{ height: window.innerHeight - 100 }}
         alignItems={"center"}
         justifyContent={"center"}>
         <Grid

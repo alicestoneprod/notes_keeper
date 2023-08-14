@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { Grid, Input, TextField, Button } from "@mui/material"
+import { Grid, TextField, Button } from "@mui/material"
 import { Alert, Space } from "antd"
 import { Context } from "../../index"
 import { addDoc, collection } from "firebase/firestore"
@@ -7,6 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import Typography from "@mui/material/Typography"
 import PriorityDropdown from "../UI/PriorityDropdown"
 import completedMessages from "./../completedTexts/completedMessages"
+import "./NoteForm.css"
 const NoteForm = () => {
   const { auth, firestore } = useContext(Context)
   const [user] = useAuthState(auth)
@@ -41,17 +42,22 @@ const NoteForm = () => {
         setWarning(completedMessages.WARNING_NO_TEXT)
         return
       }
-    } else if (selectedPriority === null) {
-      setAttention(completedMessages.ATTENTION_NO_PRIORITY)
-    } else if (selectedPriority !== null) {
+    } else if (name.length > 40) {
+      setWarning(completedMessages.WARNING_LONG_NAME)
+      return
+    } else if (note.length > 300) {
+      setWarning(completedMessages.WARNING_LONG_NOTE_TEXT)
+      return
+    } else if (name) {
       setAttention(completedMessages.ATTENTION_NOTE_ADDED)
     }
     const resultNote = {
       ID: Date.now(),
       name,
       noteText: note,
-      color: "default",
-      priority: selectedPriority ? selectedPriority : "Неважно",
+      priority: selectedPriority ? selectedPriority : "Не указан",
+      acctuality: true,
+      isHidden: false,
     }
     setWarning()
     try {
@@ -61,8 +67,9 @@ const NoteForm = () => {
           const pathID = {
             path: reference,
             ID: resultNote.ID,
+            UID: user.uid,
           }
-          await addDoc(collection(firestore, `paths`), pathID)
+          await addDoc(collection(firestore, "paths"), pathID)
         }
       )
 
@@ -76,57 +83,62 @@ const NoteForm = () => {
       }, 7000)
     } catch (e) {
       setWarning("Произошла какая-то ошибка, заметка не была добавлена.")
+
       setDisabled(false)
     }
   }
 
   return (
     <Grid
+      className='note-add-menu'
       container
       border={"2px solid #357a38"}
       justifyContent='center'
       alignItems='center'
-      flexDirection='column'
-      style={{
-        padding: "20px",
-        borderRadius: "10px",
-        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-        backgroundColor: "#fff",
-        maxWidth: "500px",
-        margin: "0 auto",
-      }}>
+      flexDirection='column'>
       <Typography variant='h5' style={{ marginBottom: "20px" }}>
-        Меню добавления заметки
+        Добавить заметку
       </Typography>
       <Space
         direction='vertical'
         style={{ width: "100%", marginBottom: "20px" }}>
         <Alert
+          className='warning-placeholder'
           message={warning}
+          type='error'
           style={{
             display: warning ? "flex" : "none",
             visibility: warning ? "visible" : "none",
-            fontWeight: "500",
-            textAlign: "center",
           }}
-          type='error'
         />
         <Alert
+          className='attention-placeholder'
           message={attention}
           style={{
-            textAlign: "center",
-            fontWeight: "500",
             visibility: isSuccessful ? "visible" : "none",
             display: isSuccessful ? "flex" : "none",
           }}
           type='info'
         />
       </Space>
-      <Input
+      <TextField
         placeholder='Введите заголовок заметки'
         style={{ width: "100%", marginBottom: "10px" }}
         value={name}
         onChange={handleNameChange}
+        InputProps={{
+          endAdornment: (
+            <span
+              style={{
+                position: "absolute",
+                bottom: 2,
+                right: 6,
+                color: name.length > 40 ? "red" : "",
+              }}>
+              {name.length}/40
+            </span>
+          ),
+        }}
       />
       <Space style={{ marginBottom: "20px" }}>
         <PriorityDropdown
@@ -136,6 +148,12 @@ const NoteForm = () => {
         />
       </Space>
       <TextField
+        onKeyDown={(e) => {
+          if (e.code === "Enter" && e.ctrlKey) {
+            handleNoteSubmit()
+          }
+        }}
+        className='note-input'
         placeholder='Введите содержание заметки'
         multiline
         value={note}
@@ -155,7 +173,6 @@ const NoteForm = () => {
             </span>
           ),
         }}
-        style={{ width: "100%", marginBottom: "20px", position: "relative" }}
       />
       <Button
         onClick={handleNoteSubmit}
@@ -164,9 +181,10 @@ const NoteForm = () => {
         style={{
           backgroundColor: "#8bc34a",
           width: "100%",
+          marginTop: "20px",
           cursor: disabled ? "not-allowed" : "pointer",
         }}>
-        Добавить заметку
+        Добавить (ctrl + enter)
       </Button>
     </Grid>
   )

@@ -1,3 +1,4 @@
+import React from "react"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Toolbar from "@mui/material/Toolbar"
@@ -59,7 +60,7 @@ const Navbar = () => {
                       color='inherit'
                       variant='outlined'
                       style={{ marginRight: "20px", marginLeft: "30px" }}>
-                      <NavLink to='/main'> Меню добавления </NavLink>
+                      <NavLink to='/main'> Добавить заметку </NavLink>
                     </Button>
                     <Avatar alt={user.displayName} src={user.photoURL} />
                     <span
@@ -129,7 +130,7 @@ const Navbar = () => {
                   color='inherit'
                   variant={"outlined"}
                   style={{ backgroundColor: "#357a38" }}>
-                  Login
+                  Авторизация
                 </Button>
               )}
             </Grid>

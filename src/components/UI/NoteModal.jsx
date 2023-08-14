@@ -1,6 +1,5 @@
 import { Modal } from "antd"
-import { Avatar } from "@mui/material"
-import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded"
+import { Avatar, Grid } from "@mui/material"
 const NoteModal = ({
   isModalOpen,
   setIsModalOpen,
@@ -8,6 +7,7 @@ const NoteModal = ({
   priority,
   text,
   index,
+  acctuality,
 }) => {
   const handleOk = () => {
     setIsModalOpen(false)
@@ -17,21 +17,27 @@ const NoteModal = ({
   }
   return (
     <Modal
+      cancelButtonProps={{ style: { display: "none" } }}
       title={
-        <Avatar
-          sx={{ bgcolor: "#00a152", width: 26, height: 26 }}
-          style={{ fontSize: "12px" }}>
-          {index + 1}
-        </Avatar>
+        <Grid container>
+          <Avatar
+            sx={{ bgcolor: "#00a152", width: 26, height: 26 }}
+            style={{ fontSize: "12px", marginRight: "10px" }}>
+            {index + 1}
+          </Avatar>
+          <span>{name}</span>
+        </Grid>
       }
       style={{}}
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
       width={400}>
-      <p>{name}</p>
-      <span>{text}</span>
-      <p>{priority}</p>
+      <div style={{ textAlign: "center", fontWeight: 600 }}>
+        <p> 1. Содержание: {text}</p>
+        <p>2. Приоритет: {priority}</p>
+        <p>3. Актуальность: {acctuality ? "Да" : "Нет"}</p>
+      </div>
     </Modal>
   )
 }

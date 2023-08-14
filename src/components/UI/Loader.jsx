@@ -6,7 +6,7 @@ const Loader = ({ text }) => {
     <Container>
       <Grid
         container
-        style={{ height: window.innerHeight - 80 }}
+        style={{ height: window.innerHeight - 100 }}
         alignItems='center'
         justifyContent='center'>
         <Grid

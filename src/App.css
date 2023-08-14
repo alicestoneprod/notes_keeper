@@ -116,9 +116,20 @@ a {
 a {
   text-decoration: none;
   color: inherit;
-  border: ;
 }
 
 .navbar {
   margin-bottom: 20px;
+}
+
+.note-card {
+  width: 300px;
+  height: 200px;
+  margin-right: 30px;
+  margin-bottom: 30px;
+  border-color: #14a37f;
+  box-shadow: 1px 1px 1px #14a37f;
+}
+note-card:last-child {
+  margin: 0;
 }

@@ -1,13 +1,22 @@
-.info-icon {
-  font-size: 30px;
+.info {
   color: #1c54b2;
-  cursor: pointer;
 }
-.delete-icon {
-  cursor: pointer;
-  font-size: 30px;
+.delete {
   color: #b2102f;
   position: absolute;
   bottom: 8px;
   right: 25px;
+}
+.complete {
+  position: absolute;
+  bottom: 8px;
+  right: 50px;
+}
+.icon {
+  font-size: 30px;
+  cursor: pointer;
+}
+.hide {
+  color: #000000;
+  font-size: 30px;
 }

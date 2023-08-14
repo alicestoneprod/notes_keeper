@@ -1,3 +1,4 @@
+import React from "react"
 import { BrowserRouter } from "react-router-dom"
 import "./App.css"
 import Navbar from "./components/UI/Navbar"
@@ -12,7 +13,10 @@ function App() {
   const [user, loading, error] = useAuthState(auth)
 
   if (loading) {
-    return <Loader text={"Инициализирую пользователя"} />
+    console.log(user)
+    return <Loader text={`Инициализирую пользователя `} />
+  } else if (error) {
+    return <Loader text={"Произошла ошибка"} />
   }
 
   return (
