@@ -7,8 +7,7 @@ import "firebase/database"
 import { initializeApp } from "firebase/app"
 import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
-import { Provider } from "react-redux"
-import { store } from "./store"
+
 const firebaseConfig = {
   apiKey: "AIzaSyBE6lVbvskLOSVsZhP4yZpqxtaoG1OaT2E",
   authDomain: "noteskeeper-93cfa.firebaseapp.com",
@@ -18,6 +17,7 @@ const firebaseConfig = {
   appId: "1:329164357899:web:21cf1ef1415ea8f3d6220e",
   measurementId: "G-KBBSDVRTB0",
 }
+
 const app = initializeApp(firebaseConfig)
 
 const auth = getAuth()
@@ -27,14 +27,12 @@ export const Context = createContext(null)
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
-  <Provider store={store}>
-    <Context.Provider
-      value={{
-        app,
-        auth,
-        firestore,
-      }}>
-      <App />
-    </Context.Provider>
-  </Provider>
+  <Context.Provider
+    value={{
+      app,
+      auth,
+      firestore,
+    }}>
+    <App />
+  </Context.Provider>
 )
