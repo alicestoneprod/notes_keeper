@@ -71,7 +71,6 @@ const Notes = () => {
           display: data.length > 0 ? "flex" : "none",
           position: "relative",
           left: `${window.innerWidth * 0.5}px`,
-          top: `2px`,
         }}
         icon={
           <DeleteOutlined
@@ -98,22 +97,16 @@ const Notes = () => {
           data
             .sort((el1, el2) => el1.ID - el2.ID)
             .map((el, index) => {
-              return el.isHidden ? (
-                ""
-              ) : (
+              return (
                 <div>
                   <NoteCard
                     deleteNoteHandler={deleteNoteHandler}
                     completeNoteHandler={completeNoteHandler}
                     hideNoteHandler={hideNoteHandler}
                     id={el.ID}
+                    paths={paths}
                     el={el}
-                    index={index}
-                    text={el.noteText}
-                    name={el.name}
-                    priority={el.priority}
-                    acctuality={el.acctuality}
-                    isHidden={el.isHidden}></NoteCard>
+                    index={index}></NoteCard>
                 </div>
               )
             })

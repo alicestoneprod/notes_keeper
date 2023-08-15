@@ -10,6 +10,7 @@ import { Context } from "../.."
 import { useContext, useState } from "react"
 import { signOut } from "firebase/auth"
 import { NavLink } from "react-router-dom"
+import "./Navbar.css"
 const Navbar = () => {
   const style = {
     position: "absolute",
@@ -32,6 +33,7 @@ const Navbar = () => {
     signOut(auth)
     handleClose()
   }
+
   return (
     <div className='navbar'>
       <Box sx={{ flexGrow: 1 }}>
@@ -44,6 +46,7 @@ const Navbar = () => {
               {user ? (
                 <>
                   <Grid
+                    className='nav-buttons'
                     container
                     style={{
                       display: "flex",
@@ -105,7 +108,7 @@ const Navbar = () => {
                           своего аккаунта?
                         </p>
                       </Typography>
-                      <Typography id='modal-modal-description' sx={{ mt: 4 }}>
+                      <Typography id='modal-modal-description' sx={{ mt: 2 }}>
                         <Container styles={{ marginLeft: "40px" }}>
                           <Button
                             variant='outlined'

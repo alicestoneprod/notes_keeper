@@ -8,16 +8,12 @@ import { Avatar, Grid } from "@mui/material"
 import { AiFillDelete, AiOutlineFileDone } from "react-icons/ai"
 import { FaEyeSlash } from "react-icons/fa"
 const NoteCard = ({
-  text,
-  name,
-  priority,
   index,
   id,
   deleteNoteHandler,
-  acctuality,
   completeNoteHandler,
   el,
-  isHidden,
+  paths,
   hideNoteHandler,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -38,7 +34,7 @@ const NoteCard = ({
             </Avatar>
 
             <span style={{ marginLeft: "10px" }}>
-              {name.length > 14 ? name.slice(0, 15) + "..." : name}
+              {el.name.length > 14 ? el.name.slice(0, 15) + "..." : el.name}
             </span>
           </Grid>
         }
@@ -52,26 +48,31 @@ const NoteCard = ({
             <RiInformationFill onClick={showModal} className='info icon' />
           </>
         }>
-        <p>Содержание: {text.length > 15 ? text.slice(0, 16) + "..." : text}</p>
-        <p>Приоритет: {priority}</p>
-        <p>Актуальность: {acctuality ? "Да" : "Нет"}</p>
+        <p>
+          Содержание: {" "}
+          {el.noteText.length > 15
+            ? el.noteText.slice(0, 16) + "..."
+            : el.noteText}
+        </p>
+        <p>Приоритет: {el.priority}</p>
+        <p>Актуальность: {el.acctuality ? "Да" : "Нет"}</p>
+        <p>Скрыто: {el.isHidden ? "Да" : "Нет"}</p>
         <AiFillDelete
           onClick={() => deleteNoteHandler(id)}
           className='delete icon'
         />
         <AiOutlineFileDone
-          style={{ color: acctuality ? "#f6ae28" : "#3e3b40" }}
+          style={{ color: el.acctuality ? "#f6ae28" : "#3e3b40" }}
           onClick={() => completeNoteHandler(id, el)}
           className='complete icon'></AiOutlineFileDone>
       </Card>
       <NoteModal
+        paths={paths}
         index={index}
-        name={name}
-        priority={priority}
-        text={text}
+        el={el}
+        ID={id}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        acctuality={acctuality}
       />
     </Space>
   )
